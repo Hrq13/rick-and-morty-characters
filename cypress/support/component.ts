@@ -1,3 +1,4 @@
+import { registerPlugins } from '@/plugins';
 // ***********************************************************
 // This example support/component.ts is processed and
 // loaded automatically before your test files.
@@ -34,7 +35,23 @@ declare global {
   }
 }
 
-Cypress.Commands.add('mount', mount)
+Cypress.Commands.add('mount', (component, options = {}) => {
+  // Setup options object
+  options.global = options.global || {};
+  options.global.stubs = options.global.stubs || {};
+  options.global.components = options.global.components || {};
+  options.global.plugins = options.global.plugins || [];
+
+  /* Add any global plugins */
+  options.global.plugins.push({
+    install(app) {
+      registerPlugins(app) // register vuetify plugin
+    }
+  });
+
+  return mount(component, options);
+});
+
 Cypress.Commands.add('findByTestId', (testId: string) => {
   return cy.get(`[test-id="${testId}"]`)
 })
