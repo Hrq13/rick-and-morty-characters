@@ -31,6 +31,7 @@ declare global {
     interface Chainable {
       mount: typeof mount
       findByTestId: (testId: string) => Cypress.Chainable<JQuery<Node>>
+      findByAttribute: (attribute: string, value: string) => Cypress.Chainable<JQuery<Node>>
     }
   }
 }
@@ -53,7 +54,11 @@ Cypress.Commands.add('mount', (component, options = {}) => {
 });
 
 Cypress.Commands.add('findByTestId', (testId: string) => {
-  return cy.get(`[test-id="${testId}"]`)
+  return cy.findByAttribute('test-id', testId)
+})
+
+Cypress.Commands.add('findByAttribute', (attribute: string, value: string) => {
+  return cy.get(`[${attribute}="${value}"]`)
 })
 
 // Example use:
