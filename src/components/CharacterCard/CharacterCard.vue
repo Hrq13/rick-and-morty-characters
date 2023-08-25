@@ -88,19 +88,31 @@
   .wrapper {
     max-width: 600px;
     width: 100%;
-    height: 220px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    height: 540px;
     background-color: grey;
+
+    @include breakpoint-lg {
+      flex-direction: row;
+      height: 220px;
+    }
+  }
+
+  .character-image {
+    width: auto;
+    height: 300px;
+    object-position: center center;
+    object-fit: cover;
+
+    @include breakpoint-lg {
+      width: 220px;
+      height: 220px;
+    }
   }
 
   .character-info {
     padding-left: 12px;
-
-    &__image {
-      width: 220px;
-      height: 220px;
-    }
 
     &__name {
       font-size: xx-large;
