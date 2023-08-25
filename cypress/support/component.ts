@@ -29,11 +29,15 @@ declare global {
   namespace Cypress {
     interface Chainable {
       mount: typeof mount
+      findByTestId: (testId: string) => Cypress.Chainable<JQuery<Node>>
     }
   }
 }
 
 Cypress.Commands.add('mount', mount)
+Cypress.Commands.add('findByTestId', (testId: string) => {
+  return cy.get(`[test-id="${testId}"]`)
+})
 
 // Example use:
 // cy.mount(MyComponent)
