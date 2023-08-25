@@ -6,6 +6,8 @@
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview",
+    "test:unit": "cypress run --component",
+    "test:unit:dev": "cypress open --component",
     "lint": "eslint . --fix --ignore-path .gitignore"
   },
   "dependencies": {
@@ -24,6 +26,7 @@
     "@types/webfontloader": "^1.6.35",
     "@vitejs/plugin-vue": "^4.0.0",
     "@vue/eslint-config-typescript": "^11.0.0",
+    "cypress": "^12.17.4",
     "eslint": "^8.37.0",
     "eslint-plugin-vue": "^9.3.0",
     "sass": "^1.60.0",
