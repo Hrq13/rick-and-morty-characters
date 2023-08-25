@@ -25,7 +25,7 @@
     </header>
 
     <div class="content-wrapper">
-      <slot />
+      <RouterView />
     </div>
 
     <footer
