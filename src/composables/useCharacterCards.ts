@@ -4,32 +4,32 @@ import { CharacterCondition, ICharacterRaw, ICharacterRawResponse } from '@/type
 import { getCharacters } from '@/services/characters'
 
 export function useCharacterCards() {
-  const countPerPage = ref(10)
   const currentPage = ref(1)
   const cards = ref<ICharacterRaw[]>([])
-  const searchName = ref<string>()
-  const searchStatus = ref<CharacterCondition>()
+  const characterNameForSearch = ref<string>()
+  const characterStatusForSearch = ref<CharacterCondition>()
+  const possibleStatus = ref<CharacterCondition[]>(['Alive', 'Dead', 'Unknown'])
+  const isLoadingCharacters = ref<boolean>(false)
 
   function clearFilters() {
-    searchName.value = undefined
-    searchStatus.value = undefined
+    characterNameForSearch.value = undefined
+    characterStatusForSearch.value = undefined
   }
 
   function buildFilterObject() {
     return {
       page: currentPage.value.toString(),
-      count: countPerPage.value.toString(),
-      ...(searchName.value && { name: searchName.value }),
-      ...(searchStatus.value && { status: searchStatus.value })
+      ...(characterNameForSearch.value && { name: characterNameForSearch.value }),
+      ...(characterStatusForSearch.value && { status: characterStatusForSearch.value })
     }
   }
 
   async function loadCharacterCards() {
+    isLoadingCharacters.value = true
     const filters = buildFilterObject()
     const response = await getCharacters(filters) as ICharacterRawResponse
-    console.log({ results: response.results })
     cards.value = response.results
-    console.log({ cards: cards.value })
+    isLoadingCharacters.value = false
   }
 
   async function loadNextPage() {
@@ -46,7 +46,7 @@ export function useCharacterCards() {
     currentPage.value = 0
     clearFilters()
 
-    searchName.value = name
+    characterNameForSearch.value = name
     await loadCharacterCards()
   }
 
@@ -54,18 +54,22 @@ export function useCharacterCards() {
     currentPage.value = 0
     clearFilters()
 
-    searchStatus.value = status
+    characterStatusForSearch.value = status
     await loadCharacterCards()
   }
 
   return {
     cards,
-    countPerPage,
     currentPage,
+    characterNameForSearch,
+    characterStatusForSearch,
+    possibleStatus,
     loadCharacterCards,
     loadNextPage,
     loadPreviousPage,
     searchByName,
-    searchByStatus
+    searchByStatus,
+    clearFilters,
+    isLoadingCharacters
   }
 }

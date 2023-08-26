@@ -1,29 +1,33 @@
 <template>
-  <v-row
+  <VRow
     v-if="props.loading"
     dense
   >
-    <v-col
+    <VCol
       v-for="(index) in props.countLimit || 10"
       :key="index"
-      class="v-col-11 v-col-sm-11 v-col-lg-6 align-center"
+      sm="12"
+      lg="6"
+      class="align-center"
     >
       <div class="card-skeleton" test-id="card-skeleton" />
-    </v-col>
-  </v-row>
+    </VCol>
+  </VRow>
 
-  <v-row
+  <VRow
     v-else
     dense
   >
-    <v-col
+    <VCol
       v-for="card in countedCards"
       :key="card.id"
-      class="v-col-11 v-col-sm-11 v-col-lg-6 align-center"
+      sm="12"
+      lg="6"
+      class="align-center"
     >
       <CharacterCard v-bind="card" />
-    </v-col>
-  </v-row>
+    </VCol>
+  </VRow>
 </template>
 
 <script setup lang="ts">
