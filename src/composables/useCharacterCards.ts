@@ -70,6 +70,7 @@ export function useCharacterCards() {
     searchByName,
     searchByStatus,
     clearFilters,
-    isLoadingCharacters
+    isLoadingCharacters,
+    buildFilterObject
   }
 }
