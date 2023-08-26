@@ -1,24 +1,47 @@
 <template>
-  <CharacterCard v-bind="characterMockInfo" />
+  <CharacterCardGrid
+    class="character-card-grid"
+    :character-cards="randomCharacters"
+    :loading="!randomCharacters.length"
+  />
 </template>
 
 <script lang="ts" setup>
-  import CharacterCard from '@/components/CharacterCard/CharacterCard.vue'
-import { CharacterInfo } from '@/types/CharacterInfo'
+  import { ref } from 'vue'
 
-  const characterMockInfo: CharacterInfo = {
-    id: '123',
-    photo: 'https://placehold.co/300x300',
-    title: 'Rocky The Dog',
-    type: 'Animal',
-    condition: 'Alive',
-    firstSeenIn: {
-      id: '3',
-      name: 'The streets'
-    },
-    lastKnownLocation: {
-      id: '1',
-      name: 'Home'
+  import CharacterCardGrid from '@/components/CharacterCardGrid/CharacterCardGrid.vue'
+
+  import { CharacterInfo } from '@/types/CharacterInfo'
+
+  import { generateMockCharacters } from '@/utils/generate-mock-characters'
+
+  const randomCharacters = ref<CharacterInfo[]>([])
+
+  function generateMocksWithDelay(): Promise<CharacterInfo[]> {
+    return new Promise((resolve)  => {
+      const characters = generateMockCharacters()
+
+      setTimeout(() => {
+        resolve(characters)
+      }, 300)
+    })
+  }
+
+  generateMocksWithDelay()
+    .then(characters => {
+      randomCharacters.value = characters
+    })
+</script>
+
+<style lang="scss" scoped>
+  .character-card-grid {
+    width: auto;
+    margin: 32px auto 48px;
+    justify-content: center;
+
+    @include breakpoint-md {
+      max-width: 1280px;
+      width: 100%;
     }
   }
-</script>
+</style>

@@ -1,5 +1,5 @@
 <template>
-  <VCard class="character-card">
+  <VCard class="character-card" test-id="character-card">
     <img
       class="character-card__image"
       :src="props.photo"
