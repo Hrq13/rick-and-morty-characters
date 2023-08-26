@@ -7,6 +7,7 @@
 
     <template v-slot:actions>
       <v-btn
+        test-id="close-button"
         color="red"
         variant="text"
         @click="modelController = false"
