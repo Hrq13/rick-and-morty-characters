@@ -2,7 +2,7 @@
   <CharacterCardGrid
     class="character-card-grid"
     :character-cards="randomCharacters"
-    :loading="!randomCharacters.length"
+    :loading="!characterCards.cards.value.length"
   />
 </template>
 
@@ -11,26 +11,14 @@
 
   import CharacterCardGrid from '@/components/CharacterCardGrid/CharacterCardGrid.vue'
 
-  import { CharacterInfo } from '@/types/CharacterInfo'
+  import { ICharacterRaw } from '@/types/CharacterService'
 
-  import { generateMockCharacters } from '@/utils/generate-mock-characters'
+  import { useCharacterCards } from '@/composables/useCharacterCards'
 
-  const randomCharacters = ref<CharacterInfo[]>([])
+  const randomCharacters = ref<ICharacterRaw[]>([])
 
-  function generateMocksWithDelay(): Promise<CharacterInfo[]> {
-    return new Promise((resolve)  => {
-      const characters = generateMockCharacters()
-
-      setTimeout(() => {
-        resolve(characters)
-      }, 300)
-    })
-  }
-
-  generateMocksWithDelay()
-    .then(characters => {
-      randomCharacters.value = characters
-    })
+  const characterCards = useCharacterCards()
+  characterCards.loadCharacterCards()
 </script>
 
 <style lang="scss" scoped>
