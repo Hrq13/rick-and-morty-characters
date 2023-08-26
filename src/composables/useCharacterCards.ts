@@ -1,9 +1,7 @@
 import { ref } from 'vue'
-import axios from 'axios'
-
-import { getEndpoint } from '@/utils/get-endpoint/get-endpoint'
 
 import { CharacterCondition, ICharacterRaw, ICharacterRawResponse } from '@/types/CharacterService'
+import { getCharacters } from '@/services/characters'
 
 export function useCharacterCards() {
   const countPerPage = ref(10)
@@ -12,16 +10,6 @@ export function useCharacterCards() {
   const searchName = ref<string>()
   const searchStatus = ref<CharacterCondition>()
 
-  function getCharacterEndpoint(filters: Record<string, string> = {}): string {
-    const endpoint = getEndpoint('CHARACTER', {
-      page: currentPage.value.toFixed(),
-      count: countPerPage.value.toString(),
-      ...filters
-    })
-
-    return endpoint
-  }
-
   function clearFilters() {
     searchName.value = undefined
     searchStatus.value = undefined
@@ -29,6 +17,8 @@ export function useCharacterCards() {
 
   function buildFilterObject() {
     return {
+      page: currentPage.value.toString(),
+      count: countPerPage.value.toString(),
       ...(searchName.value && { name: searchName.value }),
       ...(searchStatus.value && { status: searchStatus.value })
     }
@@ -36,9 +26,10 @@ export function useCharacterCards() {
 
   async function loadCharacterCards() {
     const filters = buildFilterObject()
-    const endpoint = getCharacterEndpoint(filters)
-    const response = await axios.get<never, ICharacterRawResponse>(endpoint)
+    const response = await getCharacters(filters) as ICharacterRawResponse
+    console.log({ results: response.results })
     cards.value = response.results
+    console.log({ cards: cards.value })
   }
 
   async function loadNextPage() {
