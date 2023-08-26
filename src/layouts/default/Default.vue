@@ -36,7 +36,7 @@
 
       <a
         class="footer__author-name"
-        href="https://www.linkedin.com/in/henrique-miranda-dev/"
+        href="https://br.linkedin.com/in/henrique-miranda-dev"
         target="_blank"
       >
         Henrique

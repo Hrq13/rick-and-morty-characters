@@ -36,7 +36,7 @@ describe('Default Layout', () => {
       .within(() => {
         cy.contains('Henrique')
           .should('have.attr', 'target', '_blank')
-          .should('have.attr', 'href', 'https://www.linkedin.com/in/henrique-miranda-dev/')
+          .should('have.attr', 'href', 'https://br.linkedin.com/in/henrique-miranda-dev')
       })
       .should('be.visible')
   })
