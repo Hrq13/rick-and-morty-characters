@@ -30,10 +30,10 @@
   import { computed } from 'vue'
 
   import CharacterCard from '@/components/CharacterCard/CharacterCard.vue'
-  import { CharacterInfo } from '@/types/CharacterInfo'
+  import { ICharacterCard } from '@/types/CharacterCard'
 
   const props = defineProps<{
-    characterCards: CharacterInfo[]
+    characterCards: ICharacterCard[]
     countLimit?: number
     loading: boolean
   }>()

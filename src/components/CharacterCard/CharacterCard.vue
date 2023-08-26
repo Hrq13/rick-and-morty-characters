@@ -2,30 +2,30 @@
   <VCard class="character-card" test-id="character-card">
     <img
       class="character-card__image"
-      :src="props.photo"
-      :alt="'Photo of ' + props.title"
+      :src="props.image"
+      :alt="'Image of ' + props.name"
     />
 
     <div class="character-card__info">
       <a
         class="character-card__info__name --remove-link-style"
         target="_blank"
-        :href="characterPageUrl"
+        :href="props.url"
       >
-        {{ props.title }}
+        {{ props.name }}
       </a>
 
-      <div class="character-card__info__condition-and-type">
-        <span test-id="character-condition">{{ props.condition }}</span>
+      <div class="character-card__info__status-and-species">
+        <span test-id="character-status">{{ props.status }}</span>
 
         &nbsp; - &nbsp;
 
-        <span test-id="character-type">{{ props.type }}</span>
+        <span test-id="character-species">{{ props.species }}</span>
       </div>
 
       <div
-        class="character-card__info__last-known-location"
-        test-id="last-known-location"
+        class="character-card__info__location"
+        test-id="location"
       >
         <p>
           Last known location:
@@ -34,15 +34,15 @@
         <a
           class="--remove-link-style"
           target="_blank"
-          :href="lastKnownLocationUrl"
+          :href="props.location.url"
         >
-          {{ props.lastKnownLocation.name }}
+          {{ props.location.name }}
         </a>
       </div>
 
       <div
-        class="character-card__info__first-seen-in"
-        test-id="first-seen-in"
+        class="character-card__info__origin"
+        test-id="origin"
       >
         <p>
           First seen in:
@@ -51,9 +51,9 @@
         <a
           class="--remove-link-style"
           target="_blank"
-          :href="firstSeenInLocationUrl"
+          :href="props.origin.url"
         >
-          {{ props.firstSeenIn.name }}
+          {{ props.origin.name }}
         </a>
       </div>
     </div>
@@ -61,27 +61,11 @@
 </template>
 
 <script setup lang="ts">
-  import { computed } from 'vue'
   import { VCard } from 'vuetify/components'
 
-  import { CharacterInfo } from '@/types/CharacterInfo'
+  import { ICharacterCard } from '@/types/CharacterCard'
 
-  import { getLocationUrl } from '@/utils/get-location-url/get-location-url'
-  import { getCharacterUrl } from '@/utils/get-character-url/get-character-url'
-
-  const props = defineProps<CharacterInfo>()
-
-  const characterPageUrl = computed(() => {
-    return getCharacterUrl(props.id)
-  })
-
-  const lastKnownLocationUrl = computed(() => {
-    return getLocationUrl(props.lastKnownLocation.id)
-  })
-
-  const firstSeenInLocationUrl = computed(() => {
-    return getLocationUrl(props.firstSeenIn.id)
-  })
+  const props = defineProps<ICharacterCard>()
 </script>
 
 <style lang="scss" scoped>
@@ -116,14 +100,14 @@
         font-size: xx-large;
       }
 
-      &__condition-and-type {
+      &__status-and-species {
         display: flex;
         flex-direction: row;
       }
 
-      &__condition-and-type,
-      &__last-known-location,
-      &__first-seen-in {
+      &__status-and-species,
+      &__origin,
+      &__location {
         margin-top: 8px;
       }
 
