@@ -2,7 +2,7 @@ import CharacterCardGrid from '@/components/CharacterCardGrid/CharacterCardGrid.
 
 import { generateMockCharacters } from '@/utils/generate-mock-characters'
 
-describe('Character Information ', () => {
+describe('Character Card Grid ', () => {
   it('renders loading correctly', () => {
     cy.mount(CharacterCardGrid, {
       props: {

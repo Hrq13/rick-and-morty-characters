@@ -11,7 +11,7 @@ function mountAlertSnackBar(data: Props) {
   }).then(({ wrapper }) => cy.wrap(wrapper).as('componentWrapper'))
 }
 
-describe('Character Information ', () => {
+describe('AlertSnackBar', () => {
   it('renders open snack bar correctly', () => {
     mountAlertSnackBar({
       text: 'warning text',

@@ -19,7 +19,7 @@ const characterMockCard: ICharacterCard = {
   }
 }
 
-describe('Character Information ', () => {
+describe('Character Card ', () => {
   beforeEach(() => {
     cy.mount(CharacterCard, { props: characterMockCard })
   })

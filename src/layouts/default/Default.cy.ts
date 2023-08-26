@@ -1,6 +1,6 @@
 import DefaultLayout from '@/layouts/default/Default.vue'
 
-describe('Default Layout ', {  }, () => {
+describe('Default Layout', () => {
   it('renders the header section correctly', () => {
     cy.mount(DefaultLayout)
 
