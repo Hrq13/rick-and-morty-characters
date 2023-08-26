@@ -5,15 +5,9 @@ interface Endpoint {
   url: string
 }
 
-type QueryParams = Record<string, string>
-
-export function getEndpoint(name: Endpoint['key'], queryParams?: QueryParams): Endpoint['url'] {
+export function getEndpoint(name: Endpoint['key']): Endpoint['url'] {
   if (!name)
     return ''
 
-  if (!queryParams)
-    return ENDPOINTS[name]
-
-  const stringifiedQueryParams = new URLSearchParams(queryParams)
-  return ENDPOINTS[name] + stringifiedQueryParams
+  return ENDPOINTS[name]
 }
