@@ -86,14 +86,13 @@
 
 <style lang="scss" scoped>
   .wrapper {
-    max-width: 600px;
     width: 100%;
     display: flex;
     flex-direction: column;
     height: 540px;
     background-color: grey;
 
-    @include breakpoint-lg {
+    @include breakpoint-md {
       flex-direction: row;
       height: 220px;
     }
@@ -105,7 +104,7 @@
     object-position: center center;
     object-fit: cover;
 
-    @include breakpoint-lg {
+    @include breakpoint-md {
       width: 220px;
       height: 220px;
     }

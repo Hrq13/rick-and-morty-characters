@@ -10,7 +10,7 @@
         />
       </div>
 
-      <h1 class="header__title text-h2 font-weight-bold">
+      <h1 class="header__title text-sm-h2 text-sm-h4 font-weight-bold">
         The Rick and Morty <br> Characters
       </h1>
 
@@ -63,8 +63,12 @@
       padding-bottom: 5px;
       height: 100%;
       width: 150px;
-      display: flex;
-      align-items: flex-end;
+      display: none;
+
+      @include breakpoint-md {
+        display: flex;
+        align-items: flex-end;
+      }
 
       &__rick-img,
       &__morty-img {
@@ -80,7 +84,6 @@
   .content-wrapper {
     box-sizing: border-box;
     flex: 1 1 0;
-    background-color: #eee;
   }
 
   .footer {
