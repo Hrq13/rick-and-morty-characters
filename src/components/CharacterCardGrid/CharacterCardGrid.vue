@@ -6,7 +6,7 @@
     <VCol
       v-for="(index) in props.countLimit || 10"
       :key="index"
-      sm="12"
+      cols="12"
       lg="6"
       class="align-center"
     >
