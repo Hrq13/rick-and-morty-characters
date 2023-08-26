@@ -12,6 +12,11 @@ export function useCharacterCards() {
   const possibleStatus = ref<CharacterCondition[]>(['Alive', 'Dead', 'Unknown'])
   const isLoadingCharacters = ref<boolean>(false)
 
+  function resetPagination() {
+    currentPage.value = 1
+    lastPage.value = 1
+  }
+
   function clearFilters() {
     characterNameForSearch.value = undefined
     characterStatusForSearch.value = undefined
@@ -70,14 +75,15 @@ export function useCharacterCards() {
     characterNameForSearch,
     characterStatusForSearch,
     possibleStatus,
+    isLoadingCharacters,
+    lastPage,
     loadCharacterCards,
     loadNextPage,
     loadPreviousPage,
     searchByName,
     searchByStatus,
     clearFilters,
-    isLoadingCharacters,
     buildFilterObject,
-    lastPage
+    resetPagination
   }
 }

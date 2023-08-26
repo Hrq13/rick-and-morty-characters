@@ -21,7 +21,7 @@
     <VCol
       v-for="card in countedCards"
       :key="card.id"
-      sm="12"
+      cols="12"
       lg="6"
       class="align-center"
     >

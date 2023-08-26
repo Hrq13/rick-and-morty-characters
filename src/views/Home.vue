@@ -28,7 +28,7 @@
           color="#44281d"
           size="large"
           :disabled="areFiltersClear"
-          @click="refreshResults"
+          @click="resetCards"
         >
           Clear filters
         </VBtn>
@@ -113,7 +113,8 @@
   const isOnLastPage = computed(() => characterCards.currentPage.value >= characterCards.lastPage.value)
   const isNextPageDisabled = computed(() => isLoading.value || isOnLastPage.value)
 
-  function refreshResults() {
+  function resetCards() {
+    characterCards.resetPagination()
     characterCards.clearFilters()
     handleSearch()
   }
@@ -152,6 +153,7 @@
 
   async function handleSearch() {
     try {
+      characterCards.resetPagination()
       await characterCards.loadCharacterCards()
       const filters = characterCards.buildFilterObject()
 
