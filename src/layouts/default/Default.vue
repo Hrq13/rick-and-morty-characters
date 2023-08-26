@@ -32,7 +32,15 @@
       class="footer"
       test-id="footer"
     >
-      Made with &#9749; and &#9829; by Henrique
+      Made with &#9749; and &#9829; by
+
+      <a
+        class="footer__author-name"
+        href="https://www.linkedin.com/in/henrique-miranda-dev/"
+        target="_blank"
+      >
+        Henrique
+      </a>
     </footer>
   </div>
 </template>
@@ -111,5 +119,10 @@
     height: 20px;
     width: 100%;
     box-sizing: border-box;
+
+    &__author-name {
+      color: #97ce4c;
+      font-weight: bold;
+    }
   }
 </style>
