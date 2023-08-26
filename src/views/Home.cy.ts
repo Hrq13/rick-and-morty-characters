@@ -115,6 +115,41 @@ describe('Character Information ', () => {
       .should('be.enabled')
   })
 
+  it('scrolls to the top when user changes pages', () => {
+    mountHomeViewWithMockData()
+
+    cy.window().then((win) => {
+      win.scrollTo = cy.stub().as('spyScrollNextPage')
+    })
+
+    cy.intercept('GET', charactersEndpoint + '?page=2', { fixture: 'characters.json' }).as('nextPageRequest')
+
+    cy.findByTestId('next-page-button')
+      .should('be.visible')
+      .click()
+
+    cy.get('@spyScrollNextPage').should('have.been.calledWithExactly', { top: 0, left: 0 })
+
+    cy.wait('@nextPageRequest')
+
+    cy.findByTestId('card-skeleton').should('not.exist')
+
+    cy.findByTestId('next-page-button')
+    .should('be.visible')
+    .should('be.enabled')
+
+    cy.window().then((win) => {
+      win.scrollTo = cy.stub().as('spyScrollPreviousPage')
+    })
+
+    cy.intercept('GET', charactersEndpoint + '?page=1', { fixture: 'characters.json' }).as('previousPageRequest')
+
+    cy.findByTestId('previous-page-button').click()
+    cy.wait('@previousPageRequest')
+
+    cy.get('@spyScrollPreviousPage').should('have.been.calledWithExactly', { top: 0, left: 0 })
+  })
+
   it('enables search and clear filter button after changing name field', () => {
     mountHomeViewWithMockData()
 

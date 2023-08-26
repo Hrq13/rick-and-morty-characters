@@ -122,6 +122,7 @@
     try {
       await characterCards.loadNextPage()
       const filters = characterCards.buildFilterObject()
+      scrollToTop()
 
       router.push({
         query: filters
@@ -135,6 +136,7 @@
     try {
       await characterCards.loadPreviousPage()
       const filters = characterCards.buildFilterObject()
+      scrollToTop()
 
       router.push({
         query: filters
@@ -142,6 +144,10 @@
     } catch (error) {
       handleLoadError()
     }
+  }
+
+  function scrollToTop() {
+    window.scrollTo({ top: 0, left: 0})
   }
 
   async function handleSearch() {
