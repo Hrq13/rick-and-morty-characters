@@ -3,6 +3,7 @@
     <VRow class="search-section">
       <VRow class="search-section__fields">
       <VTextField
+        test-id="name-field"
         density="compact"
         v-model="characterCards.characterNameForSearch.value"
         clearable
@@ -10,6 +11,7 @@
       />
 
       <VSelect
+        test-id="status-field"
         density="compact"
         label="Character status"
         :items="characterCards.possibleStatus.value"
@@ -19,6 +21,7 @@
 
       <VRow class="search-section__buttons">
         <VBtn
+          test-id="clear-filters-button"
           class="search-section__buttons__clear"
           variant="plain"
           color="#44281d"
@@ -30,6 +33,7 @@
         </VBtn>
 
         <VBtn
+          test-id="search-button"
           class="search-section__buttons__search"
           variant="elevated"
           size="large"
@@ -43,6 +47,7 @@
     </VRow>
 
     <CharacterCardGrid
+      test-id="character-card-grid"
       class="character-card-grid"
       :character-cards="characterCards.cards.value"
       :count-limit="20"
@@ -51,6 +56,7 @@
 
     <VRow class="pagination-buttons">
       <VBtn
+        test-id="previous-page-button"
         density="comfortable"
         icon="mdi-chevron-double-left"
         :disabled="isPreviousPageDisabled"
@@ -58,6 +64,7 @@
       />
 
       <VBtn
+        test-id="next-page-button"
         density="comfortable"
         icon="mdi-chevron-double-right"
         :disabled="isNextPageDisabled"
@@ -66,6 +73,7 @@
     </VRow>
 
     <AlertSnackBar
+      test-id="alert-snack-bar"
       v-model="isAlertSnackBarVisible"
       :text="errorMessage"
     />
@@ -97,7 +105,7 @@
   )
 
   const isLoading = computed(() =>
-    characterCards.isLoadingCharacters.value || !characterCards.cards.value.length
+    characterCards.isLoadingCharacters.value || !characterCards.cards.value?.length
   )
 
   const isPreviousPageDisabled = computed(() => characterCards.currentPage.value <= 1 || isLoading.value)
