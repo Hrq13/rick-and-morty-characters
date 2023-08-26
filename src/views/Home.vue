@@ -8,6 +8,7 @@
         v-model="characterCards.characterNameForSearch.value"
         clearable
         label="Search by name"
+        @keydown.enter="handleSearch"
       />
 
       <VSelect
