@@ -109,23 +109,29 @@
   }
 
   async function handleLoadNextPage() {
-    await characterCards.loadNextPage()
+    try {
+      await characterCards.loadNextPage()
+      const filters = characterCards.buildFilterObject()
 
-    router.push({
-      query: {
-        page: characterCards.currentPage.value
-      }
-    })
+      router.push({
+        query: filters
+      })
+    } catch (error) {
+      handleLoadError()
+    }
   }
 
   async function handleLoadPreviousPage() {
-    await characterCards.loadPreviousPage()
+    try {
+      await characterCards.loadPreviousPage()
+      const filters = characterCards.buildFilterObject()
 
-    router.push({
-      query: {
-        page: characterCards.currentPage.value
-      }
-    })
+      router.push({
+        query: filters
+      })
+    } catch (error) {
+      handleLoadError()
+    }
   }
 
   async function handleSearch() {
@@ -137,22 +143,11 @@
         query: filters
       })
     } catch (error) {
-      characterCards.isLoadingCharacters.value = false
-      showErrorMessageTemporarily(`
-        We could not find any results, try again with different filters.
-      `)
+      handleLoadError()
     }
   }
 
-  function showErrorMessageTemporarily(message: string, seconds: number = 3) {
-    errorMessage.value = message
-    isAlertSnackBarVisible.value = true
 
-    setTimeout(() => {
-      errorMessage.value = ''
-      isAlertSnackBarVisible.value = false
-    }, 1000 * seconds)
-  }
 
   function recoverCurrentPageFromUrl() {
     const pageFromUrl = Number(route.query.page)
@@ -172,6 +167,23 @@
 
     if (isStatusFromUrlValid)
       characterCards.characterStatusForSearch.value = status as CharacterCondition
+  }
+
+  function handleLoadError() {
+    characterCards.isLoadingCharacters.value = false
+    showErrorMessageTemporarily(`
+      We could not find any results, try again with different filters.
+    `)
+  }
+
+  function showErrorMessageTemporarily(message: string, seconds: number = 3) {
+    errorMessage.value = message
+    isAlertSnackBarVisible.value = true
+
+    setTimeout(() => {
+      errorMessage.value = ''
+      isAlertSnackBarVisible.value = false
+    }, 1000 * seconds)
   }
 
   onBeforeMount(() => {
