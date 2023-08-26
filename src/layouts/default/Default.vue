@@ -58,11 +58,14 @@
   .header {
     padding-top: 20px;
     display: flex;
-    flex-basis: 300px;
     align-items: center;
-    height: 200px;
+    height: 100px;
     max-width: 1000px;
     margin: 0 auto;
+
+    @include breakpoint-md {
+      height: 280px
+    }
 
     &__img-wrapper {
       padding-bottom: 5px;
@@ -100,6 +103,10 @@
   }
 
   .footer {
+    background-color: white;
+    padding: 20px 0;
+    line-height: 0;
+    box-shadow: 0px -1px 7px 0px #5f829f;
     text-align: center;
     height: 20px;
     width: 100%;
