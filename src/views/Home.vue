@@ -110,7 +110,8 @@
   )
 
   const isPreviousPageDisabled = computed(() => characterCards.currentPage.value <= 1 || isLoading.value)
-  const isNextPageDisabled = computed(() => isLoading.value)
+  const isOnLastPage = computed(() => characterCards.currentPage.value >= characterCards.lastPage.value)
+  const isNextPageDisabled = computed(() => isLoading.value || isOnLastPage.value)
 
   function refreshResults() {
     characterCards.clearFilters()
@@ -155,8 +156,6 @@
       handleLoadError()
     }
   }
-
-
 
   function recoverCurrentPageFromUrl() {
     const pageFromUrl = Number(route.query.page)

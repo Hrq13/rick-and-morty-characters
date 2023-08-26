@@ -1,10 +1,11 @@
 import { ref } from 'vue'
 
-import { CharacterCondition, ICharacterRaw, ICharacterRawResponse } from '@/types/CharacterService'
+import { CharacterCondition, ICharacterRaw, ICharacterRawResponse, IResultInfo } from '@/types/CharacterService'
 import { getCharacters } from '@/services/characters'
 
 export function useCharacterCards() {
   const currentPage = ref(1)
+  const lastPage = ref(1)
   const cards = ref<ICharacterRaw[]>([])
   const characterNameForSearch = ref<string>()
   const characterStatusForSearch = ref<CharacterCondition>()
@@ -24,11 +25,16 @@ export function useCharacterCards() {
     }
   }
 
+  function setLastPage(info: IResultInfo) {
+    lastPage.value = info.pages
+  }
+
   async function loadCharacterCards() {
     isLoadingCharacters.value = true
     const filters = buildFilterObject()
     const response = await getCharacters(filters) as ICharacterRawResponse
     cards.value = response.results
+    setLastPage(response.info)
     isLoadingCharacters.value = false
   }
 
@@ -71,6 +77,7 @@ export function useCharacterCards() {
     searchByStatus,
     clearFilters,
     isLoadingCharacters,
-    buildFilterObject
+    buildFilterObject,
+    lastPage
   }
 }
