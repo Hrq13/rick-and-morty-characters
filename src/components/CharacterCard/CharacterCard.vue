@@ -1,21 +1,21 @@
 <template>
-  <VCard class="wrapper">
+  <VCard class="character-card">
     <img
-      class="character-image"
+      class="character-card__image"
       :src="props.photo"
       :alt="'Photo of ' + props.title"
     />
 
-    <div class="character-info">
+    <div class="character-card__info">
       <a
-        class="character-info__name --remove-link-style"
+        class="character-card__info__name --remove-link-style"
         target="_blank"
         :href="characterPageUrl"
       >
         {{ props.title }}
       </a>
 
-      <div class="character-info__condition-and-type">
+      <div class="character-card__info__condition-and-type">
         <span test-id="character-condition">{{ props.condition }}</span>
 
         &nbsp; - &nbsp;
@@ -24,7 +24,7 @@
       </div>
 
       <div
-        class="character-info__last-known-location"
+        class="character-card__info__last-known-location"
         test-id="last-known-location"
       >
         <p>
@@ -41,7 +41,7 @@
       </div>
 
       <div
-        class="character-info__first-seen-in"
+        class="character-card__info__first-seen-in"
         test-id="first-seen-in"
       >
         <p>
@@ -85,7 +85,7 @@
 </script>
 
 <style lang="scss" scoped>
-  .wrapper {
+  .character-card {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -96,45 +96,45 @@
       flex-direction: row;
       height: 220px;
     }
-  }
 
-  .character-image {
-    width: auto;
-    height: 300px;
-    object-position: center center;
-    object-fit: cover;
+    &__image {
+      width: auto;
+      height: 300px;
+      object-position: center center;
+      object-fit: cover;
 
-    @include breakpoint-md {
-      width: 220px;
-      height: 220px;
-    }
-  }
-
-  .character-info {
-    padding-left: 12px;
-
-    &__name {
-      font-size: xx-large;
+      @include breakpoint-md {
+        width: 220px;
+        height: auto;
+      }
     }
 
-    &__condition-and-type {
-      display: flex;
-      flex-direction: row;
-    }
+    &__info {
+      padding-left: 12px;
 
-    &__condition-and-type,
-    &__last-known-location,
-    &__first-seen-in {
-      margin-top: 8px;
-    }
-  }
+      &__name {
+        font-size: xx-large;
+      }
 
-  .--remove-link-style {
-    text-decoration: none;
-    color: unset;
+      &__condition-and-type {
+        display: flex;
+        flex-direction: row;
+      }
 
-    &:hover {
-      color: lightsalmon;
+      &__condition-and-type,
+      &__last-known-location,
+      &__first-seen-in {
+        margin-top: 8px;
+      }
+
+      .--remove-link-style {
+        text-decoration: none;
+        color: unset;
+
+        &:hover {
+          color: lightsalmon;
+        }
+      }
     }
   }
 </style>

@@ -46,8 +46,13 @@
   .wrapper {
     display: flex;
     flex-direction: column;
-    height: 100dvh;
     box-sizing: border-box;
+    background-color: #84b0f7;
+    min-height: 100vh;
+
+    @supports (min-height: 100dvh) {
+      min-height: 100dvh;
+    }
   }
 
   .header {
@@ -68,6 +73,14 @@
       @include breakpoint-md {
         display: flex;
         align-items: flex-end;
+      }
+
+      &__morty-img {
+        aspect-ratio: 249/811;
+      }
+
+      &__rick-img {
+        aspect-ratio: 797/1119;
       }
 
       &__rick-img,
