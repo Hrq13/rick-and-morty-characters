@@ -55,7 +55,7 @@
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-    background-color: #84b0f7;
+    background-color: rgb(var(--v-theme-background));
     min-height: 100vh;
 
     @supports (min-height: 100dvh) {
@@ -111,7 +111,7 @@
   }
 
   .footer {
-    background-color: white;
+    background-color: rgb(var(--v-theme-background-light));
     padding: 20px 0;
     line-height: 0;
     box-shadow: 0px -1px 7px 0px #5f829f;
@@ -121,7 +121,7 @@
     box-sizing: border-box;
 
     &__author-name {
-      color: #97ce4c;
+      color: rgb(var(--v-theme-primary));
       font-weight: bold;
     }
   }

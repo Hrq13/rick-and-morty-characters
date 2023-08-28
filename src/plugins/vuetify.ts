@@ -15,12 +15,16 @@ import { createVuetify } from 'vuetify'
 export default createVuetify({
   theme: {
     themes: {
-      light: {
+      default: {
         colors: {
-          primary: '#1867C0',
-          secondary: '#5CBBF6',
-        },
-      },
-    },
-  },
+          primary: '#97ce4c',
+          secondary: '#E89242FF',
+          background: '#84b0f7',
+          'background-light': '#fff',
+          surface: '#b7e4f9',
+          accent: '#44281d'
+        }
+      }
+    }
+  }
 })

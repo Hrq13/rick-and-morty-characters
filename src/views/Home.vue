@@ -25,7 +25,7 @@
           test-id="clear-filters-button"
           class="search-section__buttons__clear"
           variant="plain"
-          color="#44281d"
+          color="accent"
           size="large"
           :disabled="areFiltersClear"
           @click="resetCards"
@@ -38,7 +38,7 @@
           class="search-section__buttons__search"
           variant="elevated"
           size="large"
-          color="#97ce4c"
+          color="primary"
           :disabled="areFiltersClear"
           @click="handleSearch"
         >

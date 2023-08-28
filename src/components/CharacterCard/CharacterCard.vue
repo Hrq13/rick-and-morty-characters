@@ -74,7 +74,7 @@
     display: flex;
     flex-direction: column;
     height: 540px;
-    background-color: #B7E4F9FF;
+    background-color: rgb(var(--v-theme-surface));
 
     @include breakpoint-md {
       flex-direction: row;
@@ -116,7 +116,7 @@
         color: unset;
 
         &:hover {
-          color: #E89242FF;
+          color: rgb(var(--v-theme-secondary));
         }
       }
     }
