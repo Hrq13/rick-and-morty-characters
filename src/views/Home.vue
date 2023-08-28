@@ -2,22 +2,22 @@
   <VCol class="page-wrapper" md="10" sm="12">
     <VRow class="search-section">
       <VRow class="search-section__fields">
-      <VTextField
-        test-id="name-field"
-        density="compact"
-        v-model="characterCards.filtersOfSearch.value.name"
-        clearable
-        label="Search by name"
-        @keydown.enter="handleSearch"
-      />
+        <VTextField
+          test-id="name-field"
+          density="compact"
+          v-model="characterCards.filtersOfSearch.value.name"
+          clearable
+          label="Search by name"
+          @keydown.enter="handleSearch"
+        />
 
-      <VSelect
-        test-id="status-field"
-        density="compact"
-        label="Character status"
-        :items="characterCards.possibleStatus.value"
-        v-model="characterCards.filtersOfSearch.value.status"
-      />
+        <VSelect
+          test-id="status-field"
+          density="compact"
+          label="Character status"
+          :items="characterCards.possibleStatus.value"
+          v-model="characterCards.filtersOfSearch.value.status"
+        />
       </VRow>
 
       <VRow class="search-section__buttons">
@@ -164,20 +164,21 @@
 
   .search-section {
     margin: 32px auto 0;
-    width: content;
 
     &__buttons,
     &__fields {
       flex-direction: column;
       width: 100%;
+      height: 140px;
       margin: 0 0 8px;
-      gap: 8px;
 
       @include breakpoint-md {
+        gap: 8px;
         width: auto;
         margin: 4px 0 0 0;
         flex-direction: row;
         justify-content: flex-end;
+        height: auto;
       }
     }
   }
