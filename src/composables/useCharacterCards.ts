@@ -1,16 +1,19 @@
 import { ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
-import { CharacterCondition, ICharacterRaw, ICharacterRawResponse, IResultInfo } from '@/types/CharacterService'
+import { CharacterCondition, ICharacterRaw, ICharacterRawResponse } from '@/types/CharacterService'
 import { getCharacters } from '@/services/characters'
 
 export function useCharacterCards() {
   const currentPage = ref(1)
   const lastPage = ref(1)
   const cards = ref<ICharacterRaw[]>([])
-  const characterNameForSearch = ref<string>()
-  const characterStatusForSearch = ref<CharacterCondition>()
+  const filtersOfSearch = ref<Partial<{ name: string, status: CharacterCondition }>>({})
   const possibleStatus = ref<CharacterCondition[]>(['Alive', 'Dead', 'Unknown'])
   const isLoadingCharacters = ref<boolean>(false)
+
+  const router = useRouter()
+  const route = useRoute()
 
   function resetPagination() {
     currentPage.value = 1
@@ -18,72 +21,99 @@ export function useCharacterCards() {
   }
 
   function clearFilters() {
-    characterNameForSearch.value = undefined
-    characterStatusForSearch.value = undefined
+    filtersOfSearch.value = {}
   }
 
-  function buildFilterObject() {
+  function getFiltersWithCurrentPage() {
     return {
       page: currentPage.value.toString(),
-      ...(characterNameForSearch.value && { name: characterNameForSearch.value }),
-      ...(characterStatusForSearch.value && { status: characterStatusForSearch.value })
+      ...filtersOfSearch.value
     }
-  }
-
-  function setLastPage(info: IResultInfo) {
-    lastPage.value = info.pages
   }
 
   async function loadCharacterCards() {
     isLoadingCharacters.value = true
-    const filters = buildFilterObject()
+    const filters = getFiltersWithCurrentPage()
     const response = await getCharacters(filters) as ICharacterRawResponse
+    lastPage.value = response.info.pages
     cards.value = response.results
-    setLastPage(response.info)
     isLoadingCharacters.value = false
   }
 
-  async function loadNextPage() {
+  async function handleNextPagePresentation() {
+    await loadNextPageCards()
+    updateCardFiltersInRoute()
+  }
+
+  async function loadNextPageCards() {
     currentPage.value++
     await loadCharacterCards()
   }
 
-  async function loadPreviousPage() {
+  async function handlePreviousPagePresentation() {
+    await loadPreviousPageCards()
+    updateCardFiltersInRoute()
+  }
+
+  async function loadPreviousPageCards() {
     currentPage.value--
     await loadCharacterCards()
   }
 
-  async function searchByName(name: string) {
-    currentPage.value = 0
+  async function resetCards() {
     clearFilters()
-
-    characterNameForSearch.value = name
-    await loadCharacterCards()
+    searchCards()
   }
 
-  async function searchByStatus(status: CharacterCondition) {
-    currentPage.value = 0
-    clearFilters()
-
-    characterStatusForSearch.value = status
+  async function searchCards() {
+    resetPagination()
     await loadCharacterCards()
+    updateCardFiltersInRoute()
+  }
+
+  function updateCardFiltersInRoute() {
+    const filters = getFiltersWithCurrentPage()
+    router.push({ path: route.path as string, query: filters })
+  }
+
+  function setCurrentPageFromRoute() {
+    const pageFromUrl = Number(route.query.page)
+
+    if (pageFromUrl)
+      currentPage.value = pageFromUrl
+  }
+
+  function setFiltersOfSearchFromRoute() {
+    const name = route.query.name
+    const status = route.query.status
+
+    if (typeof name === 'string')
+      filtersOfSearch.value.name = name
+
+    const isStatusFromUrlValid = possibleStatus.value.includes(status as CharacterCondition)
+
+    if (isStatusFromUrlValid)
+      filtersOfSearch.value.status = status as CharacterCondition
   }
 
   return {
     cards,
     currentPage,
-    characterNameForSearch,
-    characterStatusForSearch,
     possibleStatus,
     isLoadingCharacters,
     lastPage,
+    filtersOfSearch,
     loadCharacterCards,
-    loadNextPage,
-    loadPreviousPage,
-    searchByName,
-    searchByStatus,
+    loadNextPageCards,
+    loadPreviousPageCards,
     clearFilters,
-    buildFilterObject,
-    resetPagination
+    getFiltersWithCurrentPage,
+    resetPagination,
+    handleNextPagePresentation,
+    handlePreviousPagePresentation,
+    resetCards,
+    searchCards,
+    setCurrentPageFromRoute,
+    setFiltersOfSearchFromRoute
   }
 }

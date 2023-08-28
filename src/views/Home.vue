@@ -5,7 +5,7 @@
       <VTextField
         test-id="name-field"
         density="compact"
-        v-model="characterCards.characterNameForSearch.value"
+        v-model="characterCards.filtersOfSearch.value.name"
         clearable
         label="Search by name"
         @keydown.enter="handleSearch"
@@ -16,7 +16,7 @@
         density="compact"
         label="Character status"
         :items="characterCards.possibleStatus.value"
-        v-model="characterCards.characterStatusForSearch.value"
+        v-model="characterCards.filtersOfSearch.value.status"
       />
       </VRow>
 
@@ -28,7 +28,7 @@
           color="accent"
           size="large"
           :disabled="areFiltersClear"
-          @click="resetCards"
+          @click="characterCards.resetCards"
         >
           Clear filters
         </VBtn>
@@ -39,7 +39,7 @@
           variant="elevated"
           size="large"
           color="primary"
-          :disabled="areFiltersClear"
+          :disabled="isLoading"
           @click="handleSearch"
         >
           Search characters
@@ -83,7 +83,6 @@
 
 <script lang="ts" setup>
   import { computed, onBeforeMount, ref } from 'vue'
-  import { useRoute, useRouter } from 'vue-router'
   import { VTextField, VSelect, VRow } from 'vuetify/components'
 
   import CharacterCardGrid from '@/components/CharacterCardGrid/CharacterCardGrid.vue'
@@ -91,19 +90,16 @@
 
   import { useCharacterCards } from '@/composables/useCharacterCards'
 
-  import { CharacterCondition } from '@/types/CharacterService'
-
-  const route = useRoute()
-  const router = useRouter()
-
   const characterCards = useCharacterCards()
 
   const isAlertSnackBarVisible = ref(false)
   const errorMessage = ref('')
 
-  const areFiltersClear = computed(() =>
-    !characterCards.characterNameForSearch.value && !characterCards.characterStatusForSearch.value
-  )
+  const areFiltersClear = computed(() => {
+    const filterOfName = !!characterCards.filtersOfSearch.value.name
+    const filterOfStatus = !!characterCards.filtersOfSearch.value.status
+    return !filterOfName && !filterOfStatus
+  })
 
   const isLoading = computed(() =>
     characterCards.isLoadingCharacters.value || !characterCards.cards.value?.length
@@ -113,21 +109,9 @@
   const isOnLastPage = computed(() => characterCards.currentPage.value >= characterCards.lastPage.value)
   const isNextPageDisabled = computed(() => isLoading.value || isOnLastPage.value)
 
-  function resetCards() {
-    characterCards.resetPagination()
-    characterCards.clearFilters()
-    handleSearch()
-  }
-
   async function handleLoadNextPage() {
     try {
-      await characterCards.loadNextPage()
-      const filters = characterCards.buildFilterObject()
-      scrollToTop()
-
-      router.push({
-        query: filters
-      })
+      await characterCards.handleNextPagePresentation()
     } catch (error) {
       handleLoadError()
     }
@@ -135,64 +119,28 @@
 
   async function handleLoadPreviousPage() {
     try {
-      await characterCards.loadPreviousPage()
-      const filters = characterCards.buildFilterObject()
-      scrollToTop()
-
-      router.push({
-        query: filters
-      })
+      await characterCards.handlePreviousPagePresentation()
     } catch (error) {
       handleLoadError()
     }
-  }
-
-  function scrollToTop() {
-    window.scrollTo({ top: 0, left: 0})
   }
 
   async function handleSearch() {
     try {
-      characterCards.resetPagination()
-      await characterCards.loadCharacterCards()
-      const filters = characterCards.buildFilterObject()
-
-      router.push({
-        query: filters
-      })
+      await characterCards.searchCards()
     } catch (error) {
       handleLoadError()
     }
   }
 
-  function recoverCurrentPageFromUrl() {
-    const pageFromUrl = Number(route.query.page)
-
-    if (pageFromUrl)
-      characterCards.currentPage.value = pageFromUrl
-  }
-
-  function recoverFilterFromUrl() {
-    const name = route.query.name
-    const status = route.query.status
-
-    if (typeof name === 'string')
-      characterCards.characterNameForSearch.value = name
-
-    const isStatusFromUrlValid = characterCards.possibleStatus.value.includes(status as CharacterCondition)
-
-    if (isStatusFromUrlValid)
-      characterCards.characterStatusForSearch.value = status as CharacterCondition
-  }
-
   function handleLoadError() {
     characterCards.isLoadingCharacters.value = false
-    showErrorMessageTemporarily(`
+    showErrorMessageForSeconds(`
       We could not find any results, try again with different filters.
     `)
   }
 
-  function showErrorMessageTemporarily(message: string, seconds: number = 3) {
+  function showErrorMessageForSeconds(message: string, seconds: number = 3) {
     errorMessage.value = message
     isAlertSnackBarVisible.value = true
 
@@ -203,8 +151,8 @@
   }
 
   onBeforeMount(() => {
-    recoverCurrentPageFromUrl()
-    recoverFilterFromUrl()
+    characterCards.setCurrentPageFromRoute()
+    characterCards.setFiltersOfSearchFromRoute()
     characterCards.loadCharacterCards()
   })
 </script>
