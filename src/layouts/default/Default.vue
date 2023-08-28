@@ -46,8 +46,8 @@
 </template>
 
 <script lang="ts" setup>
-  import RickPng from '@/assets/layouts/rick.png'
-  import MortyPng from '@/assets/layouts/morty.png'
+  import RickPng from '@/assets/images/layouts/default/rick.png'
+  import MortyPng from '@/assets/images/layouts/default/morty.png'
 </script>
 
 <style lang="scss">

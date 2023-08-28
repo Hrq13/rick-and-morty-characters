@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import { HttpOptions } from '@/types/services/http'
+import { HttpOptions } from '@/types/services/Http'
 
 export function httpRequest() {
   return {
