@@ -1,4 +1,4 @@
-## Try it out at hrq13.github.io/rick-and-morty-characters/
+Try it out at [the hosted page](https://hrq13.github.io/rick-and-morty-characters/).
 
 # Essentials
 
@@ -21,6 +21,18 @@ npm run dev
 ```
 # npm
 npm run build
+```
+
+### Run all unit tests in terminal
+```
+# npm
+npm run test:unit
+```
+
+### Run all unit tests on browser
+```
+# npm
+npm run test:unit:dev
 ```
 
 ### Lints and fixes files
