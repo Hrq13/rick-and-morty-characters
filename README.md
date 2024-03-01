@@ -1,3 +1,5 @@
+## Try it out at hrq13.github.io/rick-and-morty-characters/
+
 # Essentials
 
 ## Project setup
