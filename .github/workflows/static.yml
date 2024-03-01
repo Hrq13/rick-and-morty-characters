@@ -37,6 +37,7 @@ jobs:
         run: npm run build
         env:
           NODE_ENV: production
+          BASE_PATH: "/rick-and-morty-characters"
       - name: Upload artifact
         if: ${{ github.event_name != 'pull_request' }}
         uses: actions/upload-pages-artifact@v3
