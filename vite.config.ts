@@ -27,8 +27,8 @@ export default defineConfig({
       }
     }
   },
-  base: process.env.BASE_URL || '/',
-  define: { 'process.env': process.env },
+  base: '/rick-and-morty-characters',
+  define: { 'process.env': {} },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
